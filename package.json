@@ -1,0 +1,62 @@
+{
+  "name": "@typescriptprime/userscript-build-toolkit",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [
+    "userscript",
+    "utilities",
+    "build",
+    "toolkit"
+  ],
+  "scripts": {
+    "build:esbuild": "esbuild sources/index.ts --bundle --format=esm --splitting --sourcemap --target=es2024 --external:/node_modules --outdir=dist",
+    "build:tsc": "tsc sources/index.ts --outDir dist/types --declaration --emitDeclarationOnly",
+    "build": "npm run build:esbuild && npm run build:tsc",
+    "lint": "eslint . --ext .ts",
+    "test": "ava"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "Apache-2.0",
+  "ava": {
+    "files": [
+      "tests/**/*.test.ts"
+    ],
+    "nodeArguments": [
+      "--import=tsx"
+    ],
+    "workerThreads": false,
+    "typescript": {
+      "rewritePaths": {
+        "@/": "./sources/"
+      },
+      "compile": false
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TypescriptPrime/parsing.git"
+  },
+  "devDependencies": {
+    "@ava/typescript": "^6.0.0",
+    "@types/node": "^24.10.1",
+    "ava": "^6.4.1",
+    "eslint": "^9.39.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.0"
+  }
+}
