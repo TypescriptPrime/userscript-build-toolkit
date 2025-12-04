@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ES2024",
+    "moduleResolution": "NodeNext",
+    "removeComments": false,
+    "alwaysStrict": false,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./sources/*"]
+    }
+  },
+  "include": [
+    "sources/**/*.ts",
+    "tests/**/*.test.ts"
+  ]
+}
