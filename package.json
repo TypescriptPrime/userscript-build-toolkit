@@ -54,10 +54,15 @@
     "@ava/typescript": "^6.0.0",
     "@types/node": "^24.10.1",
     "ava": "^6.4.1",
-    "esbuild": "^0.27.0",
     "eslint": "^9.39.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.0"
+  },
+  "dependencies": {
+    "@cospired/i18n-iso-languages": "^4.2.0",
+    "esbuild": "^0.27.1",
+    "i18n-iso-countries": "^7.14.0",
+    "zod": "^4.1.13"
   }
 }
