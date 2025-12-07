@@ -56,3 +56,17 @@ test('all_urls duckdcukgo.com', T => {
   
   T.true(TLDMatchPattern.MatchPattern(Pettern, Url))
 })
+
+test('subdomain wildcard match', T => {
+  let Pettern = 'https://*.subdomain.example.com/*' as TLDMatchPattern.TLDURLPattern
+  let Url = 'https://subsubdomain.subdomain.example.com/path'
+
+  T.true(TLDMatchPattern.MatchPattern(Pettern, Url))
+})
+
+test('wildcard scheme + duckduckgo. + TLD wildcard (without path slash)', T => {
+  let Pettern = '*://duckduckgo.*' as TLDMatchPattern.TLDURLPattern
+  let Url = 'https://duckduckgo.com'
+
+  T.true(TLDMatchPattern.MatchPattern(Pettern, Url))
+})

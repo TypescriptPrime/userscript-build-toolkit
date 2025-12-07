@@ -48,3 +48,9 @@ test('wildcard scheme + firefox.com (missing end slash)', T => {
 
   T.false(TLDMatchPattern.IsValidMatchPattern(Pettern))
 })
+
+test('wildcard scheme + duck.com (missing end slash)', T => {
+  let Pettern = '*://duck.com' as TLDMatchPattern.TLDURLPattern
+
+  T.false(TLDMatchPattern.IsValidMatchPattern(Pettern))
+})
