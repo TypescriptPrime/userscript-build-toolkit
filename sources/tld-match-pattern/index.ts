@@ -9,6 +9,10 @@ export const ValidSchemes = [
 
 export type TLDURLPattern = '<all_urls>' | `${ValidSchemesType}://${'*' | `*.${string}` | `${string}.${string}`}${`/${string}`}`
 
+function EscapeRegExp(Str: string): string {
+  return Str.replace(/[+?^${}()|[\]\\]/g, '\\$&')
+}
+
 /**
  * Converts a WebExtension-style match pattern into an equivalent regular expression that matches URLs.
  *
@@ -41,9 +45,9 @@ export function MatchPatternToRegExp(Pattern: TLDURLPattern): RegExp {
     throw new Error(`Invalid match pattern (missing path indicator and asterisk mark exists at its end): ${Pattern}`)
   }
   
-  RegExpStr += Host.replaceAll(/\*/g, '[A-Za-z0-9-]+').replaceAll('.', '\\.')
+  RegExpStr += EscapeRegExp(Host).replaceAll(/\*/g, '[A-Za-z0-9-]+').replaceAll('.', '\\.')
 
-  RegExpStr += '/' + Path.replaceAll(/\*/g, '.*')
+  RegExpStr += '/' + EscapeRegExp(Path).replaceAll(/\*/g, '.*')
 
   RegExpStr += '$'
 
@@ -59,6 +63,9 @@ export function MatchPatternToRegExp(Pattern: TLDURLPattern): RegExp {
  */
 export function MatchPattern(Pattern: TLDURLPattern, Url: string | URL): boolean {
   const Href = typeof Url === 'string' ? Url : Url.href
+  if (!IsValidMatchPattern(Pattern)) { 
+    throw new Error(`Invalid match pattern: ${Pattern}`)
+  }
   const Re = MatchPatternToRegExp(Pattern)
   return Re.test(Href)
 }
