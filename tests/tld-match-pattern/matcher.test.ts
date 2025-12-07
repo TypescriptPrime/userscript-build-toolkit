@@ -65,7 +65,7 @@ test('subdomain wildcard match', T => {
 })
 
 test('wildcard scheme + duckduckgo. + TLD wildcard (without path slash)', T => {
-  let Pettern = '*://duckduckgo.*' as TLDMatchPattern.TLDURLPattern
+  let Pettern = '*://duckduckgo.*/*' as TLDMatchPattern.TLDURLPattern
   let Url = 'https://duckduckgo.com'
 
   T.true(TLDMatchPattern.MatchPattern(Pettern, Url))
