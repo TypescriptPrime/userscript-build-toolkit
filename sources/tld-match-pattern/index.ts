@@ -41,13 +41,13 @@ export function MatchPatternToRegExp(Pattern: TLDURLPattern): RegExp {
   RegExpStr += '://'
   
   const [Host, Path] = SplitOnce(RestWithScheme, '/')
-  if (Path === '' && Host.endsWith('*')) {
+  if (Path === '' && (Host.endsWith('*') || !RestWithScheme.includes('/'))) {
     throw new Error(`Invalid match pattern (missing path indicator and asterisk mark exists at its end): ${Pattern}`)
   }
   
   RegExpStr += EscapeRegExp(Host).replaceAll(/\*/g, '[A-Za-z0-9-]+').replaceAll('.', '\\.')
 
-  RegExpStr += '/' + EscapeRegExp(Path).replaceAll(/\*/g, '.*')
+  RegExpStr += '/?' + EscapeRegExp(Path).replaceAll(/\*/g, '.*')
 
   RegExpStr += '$'
 
