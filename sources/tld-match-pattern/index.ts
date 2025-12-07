@@ -76,7 +76,7 @@ export function MatchPattern(Pattern: TLDURLPattern, Url: string | URL): boolean
  * @param Pattern - The candidate match pattern to validate.
  * @returns `true` if the pattern has a recognized scheme, host, and path structure; otherwise, `false`.
  */
-export function IsValidMatchPattern(Pattern: string): boolean {
+export function IsValidMatchPattern(Pattern: string): Pattern is TLDURLPattern {
   try {
     MatchPatternToRegExp(Pattern as TLDURLPattern)
     return true
