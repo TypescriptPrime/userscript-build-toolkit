@@ -2,6 +2,9 @@ name: 'Publish to npm'
 on:
   release:
     types: [published]
+  push:
+    tags:
+      - '*.*.*-build.*'
 
 jobs:
   release:
@@ -23,12 +26,12 @@ jobs:
       - name: Install dependencies
         run: npm i
       - name: Bump package.json version from tag
-        uses: TypescriptPrime/bump-packagejson-version@db54b06edeec7b10dedc11f83789aba0c96dad21
+        uses: TypescriptPrime/bump-packagejson-version@ccb775f30958884d708bc6ee8163fbd5945f9e93
       - name: Build
         run: npm run build
       - name : Publish to npm
         run: npm publish --access public
-    if: ${{ github.event.release.prerelease == false }}
+    if: ${{ github.event_name == 'release' && github.event.release.prerelease == false }}
   beta-release:
     name: Publish beta release
     runs-on: ubuntu-latest
@@ -48,9 +51,34 @@ jobs:
       - name: Install dependencies
         run: npm i
       - name: Bump package.json version from tag
-        uses: TypescriptPrime/bump-packagejson-version@db54b06edeec7b10dedc11f83789aba0c96dad21
+        uses: TypescriptPrime/bump-packagejson-version@ccb775f30958884d708bc6ee8163fbd5945f9e93
       - name: Build
         run: npm run build
       - name : Publish to npm
         run: npm publish --tag beta --access public
-    if: ${{ github.event.release.prerelease == true && contains(github.event.release.tag_name, '-beta') }}
+    if: ${{ github.event_name == 'release' && github.event.release.prerelease == true && contains(github.event.release.tag_name, '-beta.') }}
+  build-release:
+    name: Build release (no publish)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Set up NodeJS LTS
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Update npm package manager
+        run: npm install -g npm@latest
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install dependencies
+        run: npm i
+      - name: Bump package.json version from tag
+        uses: TypescriptPrime/bump-packagejson-version@ccb775f30958884d708bc6ee8163fbd5945f9e93
+      - name: Build
+        run: npm run build
+      - name : Publish to npm
+        run: npm publish --tag build --access public
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && contains(github.ref, '-build.') }}
