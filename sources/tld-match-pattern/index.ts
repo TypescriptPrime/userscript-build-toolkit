@@ -1,4 +1,4 @@
-import { SplitOnce } from '@/utils/splitonce/index.js'
+import { SplitOnce } from '@/helpers/splitonce/index.js'
 import type { ValidSchemesType } from './type.js'
 
 export const ValidSchemes = [
