@@ -1,5 +1,5 @@
 import test from 'ava'
-import { SplitOnce } from '@/utils/splitonce/index.js'
+import { SplitOnce } from '@/helpers/splitonce/index.js'
 
 test('split string with one length keyword', T => {
   let Input = 'duckduckgo.com/token'
